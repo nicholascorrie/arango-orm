@@ -287,6 +287,11 @@ class Collection(CollectionBase):
         """Dump all object attributes into a dict."""
         schema = None
 
+        if getattr(self, '_delete_null_fields'):
+            for k in list(self.__dict__.keys()):
+                if not k.startswith('_') and not getattr(self, k):
+                    delattr(self, k)
+
         if hasattr(self, "_instance_schema"):
             schema = self._instance_schema
 
