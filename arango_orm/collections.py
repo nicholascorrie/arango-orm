@@ -129,6 +129,12 @@ class Collection(CollectionBase):
         for k, v in kwargs.items():
             setattr(self, k, v)
 
+        # Removing all the null fields if the '_delete_null_fields' is set to True
+        if getattr(self, '_delete_null_fields'):
+            for k in list(self.__dict__.keys()):
+                if not k.startswith('_') and not getattr(self, k):
+                    delattr(self, k)
+
     def __setattr__(self, attr, value):
         a_real = attr
         if attr == self._key_field:
@@ -287,6 +293,7 @@ class Collection(CollectionBase):
         """Dump all object attributes into a dict."""
         schema = None
 
+        # Removing all the null fields if the '_delete_null_fields' is set to True
         if getattr(self, '_delete_null_fields'):
             for k in list(self.__dict__.keys()):
                 if not k.startswith('_') and not getattr(self, k):
