@@ -130,7 +130,7 @@ class Collection(CollectionBase):
             setattr(self, k, v)
 
         # Removing all the null fields if the '_delete_null_fields' is set to True
-        if getattr(self, '_delete_null_fields'):
+        if getattr(self, '_delete_null_fields', None):
             for k in list(self.__dict__.keys()):
                 if not k.startswith('_') and not getattr(self, k):
                     delattr(self, k)
