@@ -132,7 +132,7 @@ class Collection(CollectionBase):
         # Removing all the null fields if the '_delete_null_fields' is set to True
         if getattr(self, '_delete_null_fields', None):
             for k in list(self.__dict__.keys()):
-                if not k.startswith('_') and getattr(self, k) is None:
+                if not k.startswith('_') and getattr(self, k, None) is None:
                     delattr(self, k)
 
     def __setattr__(self, attr, value):
@@ -296,7 +296,7 @@ class Collection(CollectionBase):
         # Removing all the null fields if the '_delete_null_fields' is set to True
         if getattr(self, '_delete_null_fields'):
             for k in list(self.__dict__.keys()):
-                if not k.startswith('_') and not getattr(self, k):
+                if not k.startswith('_') and getattr(self, k, None) is None:
                     delattr(self, k)
 
         if hasattr(self, "_instance_schema"):
